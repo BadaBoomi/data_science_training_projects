@@ -3,11 +3,6 @@
 # Plan Your Seattle Accommodation the Data Scientific Way
 I just started my travel to achieve the "Udacity Data Scientist Nano Degree". One of the first real life tasks there is to present data scientific results in a blog post. Based on some Seattle Airbnb open dataset I did some evaluations to find out if I can squeeze out of the data some ideas about best fitting accomodation for a hypothetical trip of mine to Seattle.
 
-<style>
-td, th {
-   border: none!important;
-}
-</style>
 | <img src="./resources/title.jpg" alt="drawing" width="35%" /> |
 | :--: |
 
@@ -19,6 +14,7 @@ Within the data set we see that besides prices and ratings also the accomadation
 ## Question 1: Property Types Per Area
 Let us first see, what diffrent property types are offered within the corresponding neighbourhoods.
 
+<img src="./resources/property_types_per_neighbourhood.svg " alt="drawing" width="100%" heith="100%"/>
 
 <img src="./resources/types_row0.jpg" alt="drawing" width="100%" heith="100%"/>
 <img src="./resources/types_row1.jpg" alt="drawing" width="100%" heith="100%"/>
