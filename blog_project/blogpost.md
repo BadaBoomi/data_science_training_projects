@@ -15,13 +15,6 @@ Within the data set we see that besides prices and ratings also the accomadation
 Let us first see, what diffrent property types are offered within the corresponding neighbourhoods.
 
 <img src="./resources/property_types_per_neighbourhood.svg " alt="drawing" width="100%" heith="100%"/>
-
-<img src="./resources/types_row0.jpg" alt="drawing" width="100%" heith="100%"/>
-<img src="./resources/types_row1.jpg" alt="drawing" width="100%" heith="100%"/>
-<img src="./resources/types_row2.jpg" alt="drawing" width="100%" heith="100%"/>
-<img src="./resources/types_row3.jpg" alt="drawing" width="100%" heith="100%"/>
-<img src="./resources/types_row4.jpg" alt="drawing" width="100%" heith="100%"/>
-<img src="./resources/types_row5.jpg" alt="drawing" width="100%" heith="100%"/>
     	
 When having a look at the distribution of property types in neighbourhoods we can see, some of them are dominated by appartments (i.e. Cascade, Downtown) others by houses (i.e. Central Area, Delridge). And there are also some neighbourhoods with more fancy accomodations like boats, yurts or treehouses (i.e. Interbay, Ballard, Queen Anne, West Seattle, Rainier Valley)
 ## Question 2: What about Prices
