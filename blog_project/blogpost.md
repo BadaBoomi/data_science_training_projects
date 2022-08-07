@@ -3,13 +3,20 @@
 # Plan Your Seattle Accommodation the Data Scientific Way
 I just started my travel to achieve the "Udacity Data Scientist Nano Degree". One of the first real life tasks there is to present data scientific results in a blog post. Based on some Seattle Airbnb open dataset I did some evaluations to find out if I can squeeze out of the data some ideas about best fitting accomodation for a hypothetical trip of mine to Seattle.
 
-<img src="./resources/title.jpg" alt="drawing" width="35%"/>
+<style>
+td, th {
+   border: none!important;
+}
+</style>
+| <img src="./resources/title.jpg" alt="drawing" width="35%" /> |
+| :--: |
+
 ## Personal Assumptions
 For this hypothecial trip let us assume I wanted to travel to Seattle with my wife and three children (aged three, six and eight years). Within travel time we would like March, April or May next year.
 ## Goals Of Our Evalutions
 Within the data set we see that besides prices and ratings also the accomadation types are available. We have never been to Seattle before and we do not yet know in which area we want to stay there and what kind of property we would like. So we first want to get an overview there. When we are more certain about that - we will have a look at criterias to find out the best fitting date for our travel.
 
-## Property Types Per Area
+## Question 1: Property Types Per Area
 Let us first see, what diffrent property types are offered within the corresponding neighbourhoods.
 
 
@@ -21,7 +28,7 @@ Let us first see, what diffrent property types are offered within the correspond
 <img src="./resources/types_row5.jpg" alt="drawing" width="100%" heith="100%"/>
     	
 When having a look at the distribution of property types in neighbourhoods we can see, some of them are dominated by appartments (i.e. Cascade, Downtown) others by houses (i.e. Central Area, Delridge). And there are also some neighbourhoods with more fancy accomodations like boats, yurts or treehouses (i.e. Interbay, Ballard, Queen Anne, West Seattle, Rainier Valley)
-## What about Prices
+## Question 2: What about Prices
 Ok, nice to see what types of properties there are. But what about the prices? Can we have an overview of the average price of an accomodation of a property type per neighborhood?
 
 <img src="./resources/prizes_neighbourhood.png" alt="drawing" width="100%" heith="100%"/>
@@ -30,7 +37,7 @@ From the pure scaling we already get an impression of the price structure of a n
 Hmm, feedback from family tends to point to the direction of a boat stay. All of the corresponding neighbourhoods (Interbay, Ballard, Queen Anne and Cascade) could be affordable for this. 
 Maybe we can tune a bit and find out which of these four neighbourhoods has the best medium price at our possible travel dates.
 
-## Predict Price For Combination of Date, Property Type And Neigbourhood
+## Question 3: Predict Price For Combination of Date, Property Type And Neigbourhood
 
 For some accomodations prices might be varying over the year. Given a neighborhood, accomodation type and a date, what is the forecasted average price for it?
 Looking this up from purely looking at the data is possible but with no fun. We do not want to read over 1400 rows!
