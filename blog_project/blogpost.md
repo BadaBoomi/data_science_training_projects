@@ -38,11 +38,11 @@ Therefore I constructed a small linear regression model, fitted it on all the da
 ### Diagramm for Three Months
 <img src="./resources/prices_march_may.png" alt="drawing" width="100%" heith="100%"/>
 
-This does look like there is no much difference within these three month. How would it like over the year?
+This does look like there is no much difference within these three months. How would it like over the year?
 
 ### Diagram for Twelve Months
 <img src="./resources/prices_all_month.png" alt="drawing" width="100%" heith="100%"/>
-This is no variation that would my family convince to switch to another period. It is however hard to read the concrete number from this. Let's get them printed out:
+This is no variation that would my family convince to switch to another period. It is however hard to read the concrete numbers from this. Let's get them printed out:
 
 ```
 'Month 3, Neighbourhood Ballard - average cost for Boat: 225.0',
