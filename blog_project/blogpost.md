@@ -1,7 +1,7 @@
 
 
 # Plan Your Seattle Accommodation the Data Scientific Way
-I just started my travel to achieve the "Udacity Data Scientist Nano Degree". One of the first real life tasks there is to present data scientific results in a blog post. Based on some Seattle Airbnb open dataset I did some evaluations to find out if I can squeeze out of the data some ideas about best fitting accomodation for a hypothetical trip of mine to Seattle.
+I just started my travel to achieve the "Udacity Data Scientist Nano Degree". One of the first real life tasks there is to present data scientific results in a blog post. Based on Seattle Airbnb open datasets I did some evaluations to find out if I can can extract some useful information from this data to be used to find good fitting accomodation for a hypothetical trip of our family to Seattle.
 
 | <img src="./resources/title.jpg" alt="drawing" width="35%" /> |
 | :--: |
@@ -9,14 +9,14 @@ I just started my travel to achieve the "Udacity Data Scientist Nano Degree". On
 ## Personal Assumptions
 For this hypothecial trip let us assume I wanted to travel to Seattle with my wife and three children (aged three, six and eight years). Within travel time we would like March, April or May next year.
 ## Goals Of Our Evalutions
-Within the data set we see that besides prices and ratings also the accomadation types are available. We have never been to Seattle before and we do not yet know in which area we want to stay there and what kind of property we would like. So we first want to get an overview there. When we are more certain about that - we will have a look at criterias to find out the best fitting date for our travel.
+Within the data set we see that besides prices and ratings also the accomadation types are available. We have never been to Seattle before and we do not yet know in which area we want to stay there and what kind of property we would like. So we first want to get an overview. When we are more certain about that we will have a look at criterias to find out the best fitting date for our travel.
 
 ## Question 1: Property Types Per Area
 Let us first see, what diffrent property types are offered within the corresponding neighbourhoods.
 
 <img src="./resources/property_types_per_neighbourhood.svg " alt="drawing" width="100%" heith="100%"/>
     	
-When having a look at the distribution of property types in neighbourhoods we can see, some of them are dominated by appartments (i.e. Cascade, Downtown) others by houses (i.e. Central Area, Delridge). And there are also some neighbourhoods with more fancy accomodations like boats, yurts or treehouses (i.e. Interbay, Ballard, Queen Anne, West Seattle, Rainier Valley)
+When having a look at the distribution of property types in neighbourhoods we can see, some of them are dominated by appartments (i.e. Cascade, Downtown), others by houses (i.e. Central Area, Delridge). And there are also some neighbourhoods with more fancy accomodations like boats, yurts or treehouses (i.e. Interbay, Ballard, Queen Anne, West Seattle, Rainier Valley).
 ## Question 2: What about Prices
 Ok, nice to see what types of properties there are. But what about the prices? Can we have an overview of the average price of an accomodation of a property type per neighborhood?
 
@@ -29,11 +29,20 @@ Maybe we can tune a bit and find out which of these four neighbourhoods has the 
 ## Question 3: Predict Price For Combination of Date, Property Type And Neigbourhood
 
 For some accomodations prices might be varying over the year. Given a neighborhood, accomodation type and a date, what is the forecasted average price for it?
-Looking this up from purely looking at the data is possible but with no fun. We do not want to read over 1400 rows!
+Looking this up from purely the consolidated and grouped data is possible but with not much fun. We do not want to read over 1400 rows!
 
-<img src="./resources/aggregated_data.jpg" alt="drawing" width="100%" heith="100%"/>
+<img src="./resources/aggregated_data.jpg" alt="drawing" width="90%" heith="90%"/>
 
 Therefore I constructed a small linear regression model, fitted it on all the data and was now able to use the model prediction to get my desired overview.
+
+### Diagramm for Three Months
+<img src="./resources/prices_march_may.png" alt="drawing" width="100%" heith="100%"/>
+
+This does look like there is no much difference within these three month. How would it like over the year?
+
+### Diagram for Twelve Months
+<img src="./resources/prices_all_month.png" alt="drawing" width="100%" heith="100%"/>
+This is no variation that would my family convince to switch to another period. It is however hard to read the concrete number from this. Let's get them printed out:
 
 ```
 'Month 3, Neighbourhood Ballard - average cost for Boat: 225.0',
@@ -50,9 +59,10 @@ Therefore I constructed a small linear regression model, fitted it on all the da
  'Month 5, Neighbourhood Cascade - average cost for Boat: 312.0'
  ```
 
- So average range could be from $225 to $312 for this stay. Okay, this I will have to discuss with my family...
+ So average range could be from $225 to $312 for this stay. Okay, this I will have to discuss with my family. We probably also want to have a detailed look (meaning photos not data) at the neighbourhoods.
 
- ## Conclusion And Further Steps
- For me this was my first practical application of data science. My primary goal was to get used to the available tools like Pandas and Scikit-Lear, do some evaluations and get nice diagramms. As you may have noticed - the practical value of this might not (yet) be data science breakthrough - but overall I'm quite satisfied and eager to practice more!
- I will for sure recommend doing such practical oriented trainings like the one from Udacity!
+ ## Conclusion
+ For me this was my first practical application of data science. My primary goal was to get used to the available tools like Pandas and Scikit-Lear, do some evaluations and get nice diagramms. As you may have noticed - the practical value of this might not (yet) be a data science breakthrough - but overall I'm quite satisfied and eager to practice more!
+ 
+ I do for sure recommend doing such practical oriented trainings like this one from Udacity!
 
