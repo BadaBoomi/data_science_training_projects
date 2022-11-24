@@ -1,16 +1,101 @@
 import sys
+import pandas as pd
+from sqlalchemy import create_engine
+import logging
+
+logger = logging.getLogger()
 
 
 def load_data(messages_filepath, categories_filepath):
-    pass
+    ''' loads data from csv files
+
+    INPUT:
+        messages_filepath   - path to messages dataset csv file
+        categories_filepath - path to categories dataset csv file
+    
+    OUTPUT:
+        df_msg, df_cat      - tuple of pandas dataframes
+    '''
+    try:
+        df_msg = pd.read_csv(messages_filepath)
+        df_cat = pd.read_csv(categories_filepath, sep=',')
+    except Exception as e:
+        logger.error(f'could not read data files ({messages_filepath}, {categories_filepath}). {e}')
+        return None
+    return df_msg, df_cat
 
 
-def clean_data(df):
-    pass
+def clean_data(df_msg, df_cat):
+    ''' cleans and merges the data
+
+    INPUT:
+        df_msg, df_cat - tuple of pandas dataframes containing message and category data
+    
+    OUTPUT:
+        df_clean       - dataframe containing merged and cleaned data
+    '''
+    logger.info(f'clean_data with input messages shape {df_msg.shape} and categories shape {df_cat.shape}')
+    ###########################################################################
+    ###### split categories into separate cols START ##########################
+    ###########################################################################
+    df_cat = pd.concat([df_cat['id'], 
+        df_cat['categories'].str.split(pat=';', n=-1, expand=True)],  
+        axis=1, join='inner')
+    # get only the category columns
+    cat_cols = df_cat[df_cat.columns[1:]]
+    # create new headers from first row
+    row = cat_cols.head(1).values[0]
+    category_colnames = [name[:-2] for name in row]
+    new_header_names = ['id']
+    new_header_names.extend(category_colnames)
+    # rename the columns of `categories`
+    df_cat.columns = new_header_names
+    ###########################################################################
+    ###### split categories into separate cols END ############################
+    ###########################################################################
+
+    ###########################################################################
+    ###### convert category values to numbers START ###########################
+    ###########################################################################
+    for column in df_cat[df_cat.columns[1:]]:
+        # set each value to be the last character of the string
+        df_cat[column] = df_cat[column].astype(str).str[-1]
+        # convert column from string to numeric
+        df_cat[column] = df_cat[column].astype(int)
+    ###########################################################################
+    ###### convert category values to numbers END #############################
+    ###########################################################################
+
+    # concatenate df_msg, df_cat
+    df = pd.merge(df_msg, df_cat, on=['id'])
+    logger.info(f'merged dataset has shape {df.shape}')
+
+    # remove duplicates
+    df.drop_duplicates(inplace=True)
+    logger.info(f'merged dataset shape after duplicates removal {df.shape}')
+
+    return df
+
 
 
 def save_data(df, database_filename):
-    pass  
+    ''' saves dataframe into sql-lite db
+
+    INPUT:
+        df                  - dataframe to be stored in db
+        database_filename   - path to db store
+    
+    OUTPUT:
+        boolean             - true if df successfully stored into db
+    '''  
+    try:
+        engine = create_engine(f'sqlite:///{database_filename}')
+        df.to_sql('CleanedData', engine, index=False)
+        logger.info(f'successfully stored df (shape {df.shape}) into sql db {database_filename}).')
+    except Exception as e:
+        logger.error(f'could not store df (shape {df.shape}) to sql db {database_filename}). {e}')
+        return False
+    return True
 
 
 def main():
@@ -20,10 +105,10 @@ def main():
 
         print('Loading data...\n    MESSAGES: {}\n    CATEGORIES: {}'
               .format(messages_filepath, categories_filepath))
-        df = load_data(messages_filepath, categories_filepath)
+        df_msg, df_cat = load_data(messages_filepath, categories_filepath)
 
         print('Cleaning data...')
-        df = clean_data(df)
+        df = clean_data(df_msg, df_cat)
         
         print('Saving data...\n    DATABASE: {}'.format(database_filepath))
         save_data(df, database_filepath)
