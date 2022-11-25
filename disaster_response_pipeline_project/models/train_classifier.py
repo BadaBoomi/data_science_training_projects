@@ -136,6 +136,8 @@ def save_model(model, model_filepath):
     OUTPUT:
         True - if model has been successfully saved to file
     '''
+    with open(model_filepath, 'wb') as file:
+        pickle.dump(model, file)
 
 
 def main():
