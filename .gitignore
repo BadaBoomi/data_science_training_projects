@@ -130,3 +130,5 @@ dmypy.json
 
 *.pkl
 models/*.pkl
+
+bert-finetuned-sem_eval-english/
