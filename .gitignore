@@ -132,3 +132,4 @@ dmypy.json
 models/*.pkl
 
 bert-finetuned-sem_eval-english/
+transformer_models/
