@@ -133,3 +133,4 @@ models/*.pkl
 
 bert-finetuned-sem_eval-english/
 transformer_models/
+transormer_multi_model/
