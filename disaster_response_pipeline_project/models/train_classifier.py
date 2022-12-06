@@ -87,12 +87,12 @@ def build_model(X_train, y_train):
 
             ('text_pipeline', Pipeline([
                 # ('vect', CountVectorizer(tokenizer=tokenize)),
-                ('tfidf', TfidfVectorizer(tokenizer=tokenize))
+                ('tfidf', TfidfVectorizer(tokenizer = tokenize, sublinear_tf = True))
             ])),
 
         ])),
 
-        ('clf', MultiOutputClassifier(estimator=RandomForestClassifier(random_state = 42)))
+        ('clf', MultiOutputClassifier(estimator=RandomForestClassifier(random_state = 42, n_estimators = 200)))
         ])
     return pipeline.fit(X_train.message, y_train)
 
