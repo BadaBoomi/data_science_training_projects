@@ -13,24 +13,17 @@ import joblib
 from sqlalchemy import create_engine
 # from ModelSingleton import ModelSingleton
 
-
-
-
-
-
 app = Flask(__name__)
-
 
 
 def tokenize(text):
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
-
+    
     clean_tokens = []
     for tok in tokens:
         clean_tok = lemmatizer.lemmatize(tok).lower().strip()
         clean_tokens.append(clean_tok)
-
     return clean_tokens
 
 # load data
@@ -39,7 +32,9 @@ df = pd.read_sql_table('CleanedData', engine)
 # df = pd.read_sql_query('select * from CleanedData', engine)
 
 # load model
+print('loading model')
 model = joblib.load("../models/classifier.pkl")
+print('model loaded')
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -123,32 +118,32 @@ def go():
         classification_result=classification_results
     )
 
-# call for evaluation in transformer model
-@app.route('/go_trans')
-def go_trans():
-    print('entering go_trans')
-    # save user input in query
-    query = request.args.get('query', '') 
+# # call for evaluation in transformer model
+# @app.route('/go_trans')
+# def go_trans():
+#     print('entering go_trans')
+#     # save user input in query
+#     query = request.args.get('query', '') 
 
-    # use transformer model to predict classification for query
-    print('eval query')
-    model = ModelSingleton()
-    classification_labels = model.eval_message( query)
-    print('classification_labels: {classification_labels}')
-    classification_results = dict(zip(df.columns[4:], classification_labels))
-    print('classification_results: {classification_results}')
+#     # use transformer model to predict classification for query
+#     print('eval query')
+#     model = ModelSingleton()
+#     classification_labels = model.eval_message( query)
+#     print('classification_labels: {classification_labels}')
+#     classification_results = dict(zip(df.columns[4:], classification_labels))
+#     print('classification_results: {classification_results}')
 
-    # This will render the go.html Please see that file. 
-    return render_template(
-        'go.html',
-        query=query,
-        classification_result=classification_results
-    )
+#     # This will render the go.html Please see that file. 
+#     return render_template(
+#         'go.html',
+#         query=query,
+#         classification_result=classification_results
+#     )
 
 
 
 def main():
-    app.run(host='0.0.0.0', port=3001, debug=True)
+    app.run(host='0.0.0.0', port=3001, debug=False)
 
 
 if __name__ == '__main__':
