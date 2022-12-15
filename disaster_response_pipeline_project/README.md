@@ -19,7 +19,7 @@ The preparation of the data has been performed with [ETL Pipeline Preparation.ip
 ## Approaches for creating models
 ### 1. Standard
 The original approach for constructing the model for the classification is based on TfidfVectorizer as featurizer and RandomForestClassifier. 
-Notebook for this is [ML Pipeline Preparation.ipynb](ML%20Pipeline%20Preparation.ipynb). Within this notebook also some hyperparameter tuning via gridsearch has been performed. The final model construction logic went into the script [train_classifier.py](model/train_classifier.py)
+Notebook for this is [ML Pipeline Preparation.ipynb](ML%20Pipeline%20Preparation.ipynb). Within this notebook also some hyperparameter tuning via gridsearch has been performed. The final model construction logic went into the script [train_classifier.py](models/train_classifier.py)
 ### 2. Use bert-base-uncased transformer model
 Here I used pretrained English model. As in the standard it was trained on the "message" attribute of the data. Notebook for the this approaches is [ML Pipeline Preparation - transformer.ipynb](ML%20Pipeline%20Preparation%20-%20transformer.ipynb)
 ### 3. Use bert-base-multilingual-cased model
