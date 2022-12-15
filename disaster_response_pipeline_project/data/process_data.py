@@ -65,6 +65,8 @@ def clean_data(df_msg, df_cat):
         df_cat[column] = df_cat[column].astype(str).str[-1]
         # convert column from string to numeric
         df_cat[column] = df_cat[column].astype(int)
+        # allow only values 0 and 1
+        df_cat[column] = df_cat[column].apply(lambda x: 0 if x == 0 else 1 )
     ###########################################################################
     ###### convert category values to numbers END #############################
     ###########################################################################
