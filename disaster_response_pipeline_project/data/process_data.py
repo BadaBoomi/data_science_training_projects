@@ -1,7 +1,8 @@
 import sys
+import logging
 import pandas as pd
 from sqlalchemy import create_engine
-import logging
+
 
 logger = logging.getLogger()
 
@@ -10,17 +11,18 @@ def load_data(messages_filepath, categories_filepath):
     ''' loads data from csv files
 
     INPUT:
-        messages_filepath   - path to messages dataset csv file
+        messages_filepath   - path to messages dataset csv filea
         categories_filepath - path to categories dataset csv file
-    
+
     OUTPUT:
         df_msg, df_cat      - tuple of pandas dataframes
     '''
     try:
         df_msg = pd.read_csv(messages_filepath)
         df_cat = pd.read_csv(categories_filepath, sep=',')
-    except Exception as e:
-        logger.error(f'could not read data files ({messages_filepath}, {categories_filepath}). {e}')
+    except Exception as exception:
+        logger.error(
+            f'could not read data files ({messages_filepath}, {categories_filepath}). {exception}')
         return None
     return df_msg, df_cat
 
@@ -30,17 +32,18 @@ def clean_data(df_msg, df_cat):
 
     INPUT:
         df_msg, df_cat - tuple of pandas dataframes containing message and category data
-    
+
     OUTPUT:
         df_clean       - dataframe containing merged and cleaned data
     '''
-    logger.info(f'clean_data with input messages shape {df_msg.shape} and categories shape {df_cat.shape}')
+    logger.info(f'clean_data with input messages shape {df_msg.shape} \
+        and categories shape {df_cat.shape}')
     ###########################################################################
     ###### split categories into separate cols START ##########################
     ###########################################################################
-    df_cat = pd.concat([df_cat['id'], 
-        df_cat['categories'].str.split(pat=';', n=-1, expand=True)],  
-        axis=1, join='inner')
+    df_cat = pd.concat([df_cat['id'],
+                        df_cat['categories'].str.split(pat=';', n=-1, expand=True)],
+                       axis=1, join='inner')
     # get only the category columns
     cat_cols = df_cat[df_cat.columns[1:]]
     # create new headers from first row
@@ -77,23 +80,24 @@ def clean_data(df_msg, df_cat):
     return df
 
 
-
 def save_data(df, database_filename):
     ''' saves dataframe into sql-lite db
 
     INPUT:
         df                  - dataframe to be stored in db
         database_filename   - path to db store
-    
+
     OUTPUT:
         boolean             - true if df successfully stored into db
-    '''  
+    '''
     try:
         engine = create_engine(f'sqlite:///{database_filename}')
         df.to_sql('CleanedData', engine, index=False)
-        logger.info(f'successfully stored df (shape {df.shape}) into sql db {database_filename}).')
-    except Exception as e:
-        logger.error(f'could not store df (shape {df.shape}) to sql db {database_filename}). {e}')
+        logger.info(
+            f'successfully stored df (shape {df.shape}) into sql db {database_filename}).')
+    except Exception as exception:
+        logger.error(
+            f'could not store df (shape {df.shape}) to sql db {database_filename}). {exception}')
         return False
     return True
 
@@ -109,18 +113,18 @@ def main():
 
         print('Cleaning data...')
         df = clean_data(df_msg, df_cat)
-        
+
         print('Saving data...\n    DATABASE: {}'.format(database_filepath))
         save_data(df, database_filepath)
-        
+
         print('Cleaned data saved to database!')
-    
+
     else:
-        print('Please provide the filepaths of the messages and categories '\
-              'datasets as the first and second argument respectively, as '\
-              'well as the filepath of the database to save the cleaned data '\
-              'to as the third argument. \n\nExample: python process_data.py '\
-              'disaster_messages.csv disaster_categories.csv '\
+        print('Please provide the filepaths of the messages and categories '
+              'datasets as the first and second argument respectively, as '
+              'well as the filepath of the database to save the cleaned data '
+              'to as the third argument. \n\nExample: python process_data.py '
+              'disaster_messages.csv disaster_categories.csv '
               'DisasterResponse.db')
 
 

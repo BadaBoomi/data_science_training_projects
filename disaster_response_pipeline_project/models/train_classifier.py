@@ -12,7 +12,6 @@ from nltk.stem import WordNetLemmatizer
 import nltk
 
 # imports for pipeline
-from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -32,7 +31,7 @@ def load_data(database_filepath):
     INPUT:
         database_filepath - path to sql db
 
-    
+
     OUTPUT:
         X              - pandas dataframe containing the message data
         Y              - pandas dataframe containing the category data
@@ -51,11 +50,11 @@ def tokenize(text):
 
     INPUT:
         text         - text in English language
-    
+
     OUTPUT:
         clean_tokens - list of cleaned tokens
-    ''' 
-    
+    '''
+
     # Remove punctuation characters
     text = re.sub('[^0-9a-z]+', ' ', text.lower())
     #Split text into words using NLTK
@@ -77,11 +76,11 @@ def build_model(X_train, y_train):
     ''' builds pipeline and trains model
 
     INPUT:
-        X_train, y_train : trainingsdat 
-    
+        X_train, y_train : trainingsdat
+
     OUTPUT:
         trained model
-    ''' 
+    '''
     pipeline = Pipeline([
         ('features', FeatureUnion([
 
@@ -92,12 +91,13 @@ def build_model(X_train, y_train):
 
         ])),
 
-        ('clf', MultiOutputClassifier(estimator=RandomForestClassifier(random_state = 42, n_estimators = 200)))
+        ('clf', MultiOutputClassifier(estimator=RandomForestClassifier(random_state = 42, \
+            n_estimators = 200)))
         ])
     return pipeline.fit(X_train.message, y_train)
 
 
-def evaluate_model(model, X_test, y_test, category_names, 
+def evaluate_model(model, X_test, y_test, category_names,
                     report_filepath='classification_report.txt'):
     ''' evaluates the trained model on test data
 
@@ -107,11 +107,11 @@ def evaluate_model(model, X_test, y_test, category_names,
         Y_test          - labeled/real values for categories
         category_names  - list with category names
         report_filepath - path to store the evaluation report
-    
+
     OUTPUT:
         saves report to file
         returns array with results
-    ''' 
+    '''
     predicted = model.predict(X_test.message)
     results = []
     for index, y_pred in enumerate(np.transpose(predicted)):
@@ -120,9 +120,9 @@ def evaluate_model(model, X_test, y_test, category_names,
 
     with open(report_filepath, "w+") as f:
         f.write(str(results))
-    
+
     return results
-    
+
 
 
 
@@ -132,7 +132,7 @@ def save_model(model, model_filepath):
     INPUT:
         model           - trained model
         model_filepath  - path to store the trained model
-    
+
     OUTPUT:
         True - if model has been successfully saved to file
     '''
@@ -146,13 +146,13 @@ def main():
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y, category_names = load_data(database_filepath)
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
-        
+
         print('Building model...')
         model = build_model(X_train, Y_train)
-        
+
         # print('Training model...')
         # model.fit(X_train, Y_train)
-        
+
         print('Evaluating model...')
         results = evaluate_model(model, X_test, Y_test, category_names)
         print(f'evaluation results: {results}')
