@@ -38,6 +38,7 @@ def load_data(database_filepath):
         category_names - list of all category names
     '''
     engine = create_engine(f'sqlite:///{database_filepath}')
+    # df = pd.read_sql_query('select * from CleanedData limit 50', engine)
     df = pd.read_sql_query('select * from CleanedData', engine)
     X = df[['message']]
     Y = df[df.columns[4:]]
@@ -73,7 +74,7 @@ def tokenize(text):
 
 
 def build_model(X_train, y_train):
-    ''' builds pipeline and trains model
+    ''' builds pipeline and trains model (performs also grid search about some hyper parameters)
 
     INPUT:
         X_train, y_train : trainingsdat
@@ -94,7 +95,18 @@ def build_model(X_train, y_train):
         ('clf', MultiOutputClassifier(estimator=RandomForestClassifier(random_state = 42, \
             n_estimators = 200)))
         ])
-    return pipeline.fit(X_train.message, y_train)
+
+    parameters = {
+        # 'clf__estimator__n_estimators': [100, 200, 300],
+        # 'clf__estimator__criterion': ['gini', 'entropy', 'log_loss'],
+        'features__text_pipeline__tfidf__sublinear_tf':[True, False]
+        }
+
+    cv = GridSearchCV(pipeline, param_grid=parameters)
+    cv.fit(X_train.message, y_train)
+
+    # return pipeline.fit(X_train.message, y_train)
+    return cv.best_estimator_
 
 
 def evaluate_model(model, X_test, y_test, category_names,
@@ -152,15 +164,17 @@ def main():
 
         # print('Training model...')
         # model.fit(X_train, Y_train)
+        print('Saving model...\n    MODEL: {}'.format(model_filepath))
+        save_model(model, model_filepath)
+        print('Trained model saved!')
 
         print('Evaluating model...')
         results = evaluate_model(model, X_test, Y_test, category_names)
         print(f'evaluation results: {results}')
 
-        print('Saving model...\n    MODEL: {}'.format(model_filepath))
-        save_model(model, model_filepath)
 
-        print('Trained model saved!')
+
+
 
     else:
         print('Please provide the filepath of the disaster messages database '\
