@@ -55,7 +55,7 @@ All the details and outcomes of this are document within a [Jupyter notebook](Sp
 * Execute the [Jupyter notebook](Sparkify.ipynb)
 
 ## Reference:
-[Blogpost](blogpost.md) of this project.
+[Blogpost](https://medium.com/@heiko.dotzauer/sparkify-will-he-stay-or-will-he-go-0383ce1571d9) of this project.
 
 ## Licencing
 [Creative Commons Legal Code](LICENSE)
